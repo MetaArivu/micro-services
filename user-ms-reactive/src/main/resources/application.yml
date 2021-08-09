@@ -17,7 +17,9 @@ jwt:
   secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
   expiration: 28800 # token expiration in seconds
 app:
-  public_routes: /api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  info: User Microservice
+  version: V1
+  public_routes: /welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 
 --- 
 spring:
@@ -35,7 +37,9 @@ jwt:
   secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
   expiration: 28800 # token expiration in seconds
 app:
-  public_routes: /api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  info: User Microservice
+  version: V1
+  public_routes: /welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 
 
 --- 
@@ -54,7 +58,9 @@ jwt:
   secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
   expiration: 28800 # token expiration in seconds
 app:
-  public_routes: /api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  info: User Microservice
+  version: V1
+  public_routes: /welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 
     
 

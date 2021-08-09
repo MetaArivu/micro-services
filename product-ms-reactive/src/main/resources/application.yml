@@ -18,7 +18,9 @@ jwt:
       keylength: 256
   secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
 app:
-  public_routes: /swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  info: Product Microservice
+  version: V1
+  public_routes: /welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 --- 
 spring:
   profiles: uat
@@ -34,7 +36,9 @@ jwt:
       keylength: 256
   secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
 app:
-  public_routes: /swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  info: Product Microservice
+  version: V1
+  public_routes: /welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 --- 
 spring:
   profiles: prod
@@ -50,6 +54,8 @@ jwt:
       keylength: 256
   secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
 app:
-  public_routes: /swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  info: Product Microservice
+  version: V1
+  public_routes: /welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
     
 

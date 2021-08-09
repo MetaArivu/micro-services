@@ -1,4 +1,4 @@
-package com.user.adapter.controller;
+package com.user.adapter.controller.v1;
 
 import static com.user.constants.APIConstant.V1;
 
