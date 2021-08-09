@@ -6,8 +6,11 @@ import java.util.Date;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.product.config.AppProperties;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -21,14 +24,14 @@ import io.jsonwebtoken.security.SignatureException;
 @Component
 public class JWTUtil {
 
-    @Value("${jwt.secret}")
-    private String secret;
-
+	@Autowired
+	private AppProperties appProp;
+	
     private Key key;
 
     @PostConstruct
     public void init() {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.key = Keys.hmacShaKeyFor(appProp.getJwtSecret().getBytes());
     }
 
     public Claims getAllClaimsFromToken(String token) {
@@ -54,7 +57,7 @@ public class JWTUtil {
 			Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 			return true;
     	}catch (SignatureException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
-			return false;// new BadCredentialsException("INVALID_CREDENTIALS", ex);
+			return false; 
 		} catch (ExpiredJwtException ex) {
 			return false;
 		}

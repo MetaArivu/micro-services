@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
+import com.product.config.AppProperties;
+
 import reactor.core.publisher.Mono;
 
 @EnableWebFluxSecurity
@@ -24,6 +26,9 @@ public class WebSecurityConfig {
 
 	@Autowired
 	private MyAuthenticationEntryPoint authenticationEntryPoint;
+	
+	@Autowired
+	private AppProperties appProp;
 	
     @Bean
     public SecurityWebFilterChain securitygWebFilterChain(ServerHttpSecurity http) {
@@ -40,7 +45,7 @@ public class WebSecurityConfig {
                 .securityContextRepository(securityContextRepository)
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                .pathMatchers("/api/v1/").permitAll()
+                .pathMatchers(appProp.getPublicAPI()).permitAll()
                 .anyExchange().authenticated()                
                 .and()
                 .build();
