@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: Config Server
+  cloud:
+    config:
+      server:
+        git
+          url: 
+server:
+  port: 8888
+      
+app:
+  info: Config Server
+  version: v1
+  
