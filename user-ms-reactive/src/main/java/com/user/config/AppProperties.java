@@ -1,8 +1,10 @@
 package com.user.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @org.springframework.context.annotation.Configuration
+@RefreshScope
 public class AppProperties {
 
 	@Value("${app.info}")

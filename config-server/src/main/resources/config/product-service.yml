@@ -22,7 +22,7 @@ jwt:
 app:
   info: Product Microservice
   version: V1
-  public_routes: /welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  public_routes: /actuator/**,/welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 --- 
 spring:
   profiles: uat
@@ -40,7 +40,7 @@ jwt:
 app:
   info: Product Microservice
   version: V1
-  public_routes: /welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  public_routes: /actuator/**,/welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 --- 
 spring:
   profiles: prod
@@ -58,6 +58,6 @@ jwt:
 app:
   info: Product Microservice
   version: V1
-  public_routes: /welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  public_routes: /actuator/**,/welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
     
 
