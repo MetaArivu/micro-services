@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,13 +27,19 @@ public class ProductIntegrationService {
 	@Qualifier("product-service-int")
 	private WebClient webclient;
 
+	
 	public Mono<ProductDTO>  getProductDetails(String id) {
 
+		
 		String token = MDC.get("Authorization");
 		//log.debug("Authorization="+token);
 		String url = "/api/v1/" + id;
 		log.info("Fetching data from product service, url={}", url);
 		return webclient
+				.mutate()
+				.filter(logRequest())
+	            .filter(logResponse())
+	            .build()
 				.get()
 				.uri(url)
 				.accept(MediaType.APPLICATION_JSON)
@@ -55,7 +62,30 @@ public class ProductIntegrationService {
 						return Mono.error(new InvalidInputException(e.getMessage()));
 					}
 					
-				}).log();
+				});
 
+	}
+	
+	// This method returns filter function which will log request data
+    private static ExchangeFilterFunction logRequest() {
+        
+    	return ExchangeFilterFunction.ofRequestProcessor(clientRequest -> {
+            
+        	log.info("Request: {} {}", clientRequest.method(), clientRequest.url());
+            
+            clientRequest.headers().forEach((name, values) -> values.forEach(value -> log.debug("{}={}", name, value)));
+            
+            return Mono.just(clientRequest);
+        });
+    	
+    }
+    
+    private ExchangeFilterFunction logResponse() {
+	    
+    	return ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
+	        log.debug("Response Status: {}", clientResponse.statusCode());
+	        return Mono.just(clientResponse);
+	    });
+    	
 	}
 }
