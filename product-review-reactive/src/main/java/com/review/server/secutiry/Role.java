@@ -1,0 +1,5 @@
+package com.review.server.secutiry;
+
+public enum Role {
+    ROLE_USER, ROLE_ADMIN
+}
