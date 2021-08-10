@@ -30,6 +30,8 @@ app:
   version: V1
   public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 
+url:
+  product: http://localhost:8082
 --- 
 spring:
   profiles: uat

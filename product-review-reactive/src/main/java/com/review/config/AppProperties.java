@@ -19,6 +19,9 @@ public class AppProperties {
 	@Value("${jwt.secret}")
 	private String jwtSecret;
 
+	@Value("${url.product}")
+	private String prdSvcUrl;
+
 	public String[] getPublicAPI() {
 		return this.publicAPI;
 	}
@@ -32,4 +35,7 @@ public class AppProperties {
 		return this.appInfo + ", " + this.appVersion;
 	}
 
+	public String productServiceURL() {
+		return this.prdSvcUrl;
+	}
 }

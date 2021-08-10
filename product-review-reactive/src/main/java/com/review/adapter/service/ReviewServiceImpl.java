@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.review.adapter.entities.ProductReview;
 import com.review.adapter.repository.ReviewRepository;
+import com.review.domainlayer.service.ProductIntegrationService;
 import com.review.domainlayer.service.ReviewService;
+import com.review.dto.ProductDTO;
+import com.review.dto.Response;
 import com.review.exceptions.DuplicateRecordException;
 import com.review.exceptions.InvalidInputException;
 
@@ -24,6 +27,8 @@ public class ReviewServiceImpl implements ReviewService {
 	@Autowired
 	private ReviewRepository prdReviewRepo;
 	
+	@Autowired
+	private ProductIntegrationService prdIntSvc;
 
 	@Override
 	public Flux<ProductReview> reviewsByProduc(String _id){
@@ -43,8 +48,15 @@ public class ReviewServiceImpl implements ReviewService {
 			Mono<ProductReview> fallback = Mono.error( new InvalidInputException(ProductReview.invalidMsg()));
 			return fallback;
 		}
+		return prdIntSvc.getProductDetails(_prdReview.getProductId())
+				 .flatMap((prd)->{
+					 log.info("Prod="+prd);
+					 _prdReview.setProductName(prd.getName());
+					 return prdReviewRepo.save(_prdReview);
+				 })
+				 .switchIfEmpty(Mono.error(new InvalidInputException("Invalid product id")));
 		
-		return prdReviewRepo.save(_prdReview);
+		
 	}
 
 

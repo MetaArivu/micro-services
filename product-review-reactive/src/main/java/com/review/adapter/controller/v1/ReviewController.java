@@ -34,16 +34,7 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewSvc;
  
-	@GetMapping(value = "/product/{id}/review")
-	public Mono<ResponseEntity<Response<ProductReview>>> findById(@PathVariable("id") String id) {
-		
-			return reviewSvc.findById(id)
-					.map(prd -> new ResponseEntity<Response<ProductReview>>(
-							new Response<ProductReview>(true, "Record retrieved successully", prd), HttpStatus.OK))
-					.defaultIfEmpty(new ResponseEntity<Response<ProductReview>>(
-							new Response<ProductReview>(false, "Record not found"), HttpStatus.NOT_FOUND));
-		
-	}
+	
 
 	@PostMapping(value = "/")
 	public Mono<ResponseEntity<Response<ProductReview>>> save(@RequestBody ProductReview review) {
