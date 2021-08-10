@@ -36,6 +36,7 @@ public class ProductController {
  
 	@GetMapping(value = "/")
 	public Mono<ResponseEntity<Response<List<Products>>>> allProducts() {
+		log.debug("Executing get all products");
 		return prdSvc.allProducts()
 				.collectList()
 				.map(prds -> new ResponseEntity<Response<List<Products>>>(

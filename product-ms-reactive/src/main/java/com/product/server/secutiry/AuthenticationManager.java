@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import brave.propagation.ExtraFieldPropagation;
 import io.jsonwebtoken.Claims;
 import reactor.core.publisher.Mono;
 

@@ -2,6 +2,8 @@ package com.product.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.RequestPath;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -9,23 +11,51 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 
+import com.product.server.secutiry.JWTUtil;
+
+import brave.propagation.ExtraFieldPropagation;
 import reactor.core.publisher.Mono;
 
 @Component
 public class RequestFilter implements WebFilter {
 
+	@Autowired
+	private JWTUtil jwtUtil;
+
+	
 	private static final Logger log = (Logger) LoggerFactory.getLogger(RequestFilter.class);
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 		long startTime = System.currentTimeMillis();
+		log.info("api call started...");
 		ServerHttpRequest request = exchange.getRequest();
 		RequestPath path = request.getPath();
-
-		return chain.filter(exchange).doFinally(signalType -> {
-			long totalTime = System.currentTimeMillis() - startTime;
-			log.info("IP={}, Path={}, TT= {}", request.getRemoteAddress().toString(), path.toString(), totalTime);
-		});
+		
+		return chain.filter(exchange)
+				.doOnSubscribe(s -> {
+                    String authorization = exchange.getRequest().getHeaders().getFirst("Authorization");
+                    /*
+                    try {
+                    	 String authToken = authorization.substring(7);
+                    	 String userName = jwtUtil.getUsernameFromToken(authToken);
+                    	 log.debug("user name="+userName);
+                    	 ExtraFieldPropagation.set("userName", userName);
+                    }catch (Exception e) {
+						// TODO: handle exception
+                    	e.printStackTrace();
+					}
+                    */
+                    ExtraFieldPropagation.set("Authorization", authorization);
+                })
+				.doFinally(signalType -> {
+					long totalTime = System.currentTimeMillis() - startTime;
+					log.info("IP={}, Path={}, TT= {}", request.getRemoteAddress().toString(), path.toString(), totalTime);
+					MDC.clear();
+				});
+					
 	}
+
+
 
 }

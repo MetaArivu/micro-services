@@ -1,5 +1,8 @@
 package com.product.adapter.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,17 +12,23 @@ import com.product.domainlayer.service.ProductService;
 import com.product.exceptions.DuplicateRecordException;
 import com.product.exceptions.InvalidInputException;
 
+import brave.propagation.ExtraFieldPropagation;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
+	private static final Logger log = (Logger) LoggerFactory.getLogger(ProductServiceImpl.class);
+
 	@Autowired
 	private ProductsRepository prdRepo;
 	
 	@Override
 	public Flux<Products> allProducts() {
+		log.info("Fetching all active products");
+		log.debug("Authorization="+MDC.get("Authorization"));
+		//log.debug("username="+MDC.get("userName"));
 		return prdRepo.findByActive(true);
 	}
 
