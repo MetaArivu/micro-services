@@ -3,7 +3,7 @@
 	<appender name="STDOUT"
 		class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSSS}| %p| %logger{3}| %thread| %m%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSSS}| %p| %thread| %X{traceId}| %logger{3} | %m%n</pattern>
 		</encoder>
 	</appender>
 
@@ -18,12 +18,12 @@
 			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSSS}| %p| %logger{3}| %thread| %m%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSSS}| %p| %thread| %X{traceId}| %logger{3} | %m%n</pattern>
 		</encoder>
 	</appender>
 
 	
-	<logger name="com.product" level="info">
+	<logger name="com.user" level="info">
 		<appender-ref ref="STDOUT" />
 	</logger>
 

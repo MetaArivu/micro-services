@@ -28,7 +28,7 @@ public class RequestFilter implements WebFilter {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 		long startTime = System.currentTimeMillis();
-		log.info("api call started...");
+		log.info("API call started...");
 		ServerHttpRequest request = exchange.getRequest();
 		RequestPath path = request.getPath();
 		
