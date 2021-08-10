@@ -1,10 +1,9 @@
 spring:
   application:
     name: product-service
-  profiles:
-    active: dev
+
 server:
-  port: 8081
+  port: 8082
 --- 
 spring:
   profiles: dev
@@ -12,6 +11,12 @@ spring:
     host: localhost
     port: 27017
     database: productdb
+  cloud:
+    bus:
+      id: product-service-fbcb02b3-80df-48d2-8da4-18a089d27e8d
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
 jwt:
   password:
     encoder:
@@ -19,17 +24,25 @@ jwt:
       iteration: 33
       keylength: 256
   secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
+  expiration: 28800 # token expiration in seconds
 app:
   info: Product Microservice
   version: V1
-  public_routes: /actuator/**,/welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+
 --- 
 spring:
   profiles: uat
   data.mongodb:
-    host: uathost
+    host: localhost
     port: 27017
     database: productdb
+  cloud:
+    bus:
+      id: product-service-fbcb02b3-80df-48d2-8da4-18a089d27e8d
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
 jwt:
   password:
     encoder:
@@ -37,17 +50,25 @@ jwt:
       iteration: 33
       keylength: 256
   secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
+  expiration: 28800 # token expiration in seconds
 app:
   info: Product Microservice
   version: V1
-  public_routes: /actuator/**,/welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+
 --- 
 spring:
   profiles: prod
   data.mongodb:
-    host: prodhost
+    host: localhost
     port: 27017
     database: productdb
+  cloud:
+    bus:
+      id: product-service-fbcb02b3-80df-48d2-8da4-18a089d27e8d
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
 jwt:
   password:
     encoder:
@@ -55,9 +76,9 @@ jwt:
       iteration: 33
       keylength: 256
   secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
+  expiration: 28800 # token expiration in seconds
 app:
   info: Product Microservice
   version: V1
-  public_routes: /actuator/**,/welcome,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
-    
+  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 

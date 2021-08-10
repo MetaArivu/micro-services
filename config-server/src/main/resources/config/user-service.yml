@@ -1,6 +1,9 @@
 spring:
   application:
     name: user-service
+
+server:
+  port: 8081
 --- 
 spring:
   profiles: dev
@@ -8,6 +11,12 @@ spring:
     host: localhost
     port: 27017
     database: userdb
+  cloud:
+    bus:
+      id: user-service-7ee96b40-6af0-4742-820a-3f3ff4a88308
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
 jwt:
   password:
     encoder:
@@ -25,9 +34,15 @@ app:
 spring:
   profiles: uat
   data.mongodb:
-    host: uathost
+    host: localhost
     port: 27017
     database: userdb
+  cloud:
+    bus:
+      id: user-service-7ee96b40-6af0-4742-820a-3f3ff4a88308
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
 jwt:
   password:
     encoder:
@@ -46,9 +61,15 @@ app:
 spring:
   profiles: prod
   data.mongodb:
-    host: prodhost
+    host: localhost
     port: 27017
     database: userdb
+  cloud:
+    bus:
+      id: user-service-7ee96b40-6af0-4742-820a-3f3ff4a88308
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
 jwt:
   password:
     encoder:
@@ -61,6 +82,4 @@ app:
   info: User Microservice
   version: V1
   public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
-
-    
 
