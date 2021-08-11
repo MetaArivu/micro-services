@@ -24,7 +24,7 @@ app:
   public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 
 --- 
-pring:
+spring:
   profiles: uat
   cloud:
     bus:
@@ -38,7 +38,7 @@ app:
   public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 
 --- 
-pring:
+spring:
   profiles: prod
   cloud:
     bus:
