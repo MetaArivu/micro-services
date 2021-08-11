@@ -29,7 +29,10 @@ app:
   info: Review Microservice
   version: V1
   public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
-
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
 url:
   product: http://localhost:8082
 --- 
@@ -57,7 +60,13 @@ app:
   info: Review Microservice
   version: V1
   public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
 
+url:
+  product: http://localhost:8082      
 --- 
 spring:
   profiles: prod
@@ -84,3 +93,10 @@ app:
   version: V1
   public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+url:
+  product: http://localhost:8082
