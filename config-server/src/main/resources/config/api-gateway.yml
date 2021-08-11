@@ -11,6 +11,30 @@ spring:
     bus:
       id: naming-server-fbcb02b3-80df-48d2-8da4-18a089d27e8d
       enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+      - id: user-service
+        uri: lb://user-service
+        predicates:
+        - Path=/usvc/**      
+        filters:
+        - RewritePath=/usvc/(?<segment>.*), /$\{segment}
+      - id: product-service
+        uri: lb://product-service
+        predicates:
+        - Path=/psvc/**      
+        filters:
+        - RewritePath=/psvc/(?<segment>.*), /$\{segment}
+      - id: review-service
+        uri: lb://review-service
+        predicates:
+        - Path=/rsvc/**      
+        filters:
+        - RewritePath=/rsvc/(?<segment>.*), /$\{segment}
   kafka:
     bootstrap-servers: http://localhost:9095   
   gateway:
