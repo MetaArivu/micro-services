@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: naming-server
+
+server:
+  port: 8761
+
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka:  false  
+--- 
+spring:
+  profiles: dev
+  cloud:
+    bus:
+      id: naming-server-fbcb02b3-80df-48d2-8da4-18a089d27e8d
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
+app:
+  info: Naming Server Microservice
+  version: V1
+  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+
+--- 
+pring:
+  profiles: uat
+  cloud:
+    bus:
+      id: naming-server-fbcb02b3-80df-48d2-8da4-18a089d27e8d
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
+app:
+  info: Naming Server Microservice
+  version: V1
+  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+
+--- 
+pring:
+  profiles: prod
+  cloud:
+    bus:
+      id: naming-server-fbcb02b3-80df-48d2-8da4-18a089d27e8d
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
+app:
+  info: Naming Server Microservice
+  version: V1
+  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
