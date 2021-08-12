@@ -1,12 +1,13 @@
 package com.review.adapter.service;
 
+import java.time.Duration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,9 +18,11 @@ import com.review.config.AppProperties;
 import com.review.domainlayer.service.ProductIntegrationService;
 import com.review.dto.ProductDTO;
 import com.review.dto.Response;
+import com.review.exceptions.IntegrationException;
 import com.review.exceptions.InvalidInputException;
 
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
 @Service
 public class ProductIntegrationServiceImpl implements ProductIntegrationService{
@@ -47,10 +50,21 @@ public class ProductIntegrationServiceImpl implements ProductIntegrationService{
 				.uri(url)
 				.accept(MediaType.APPLICATION_JSON)
 				.header("Authorization",token)
-				.exchange()
-				.flatMap(response -> {
-					log.info("Response received");
-					return response.bodyToMono(Response.class);
+				.retrieve()
+				.onStatus(HttpStatus::is5xxServerError, 
+				          response -> Mono.error(new IntegrationException(response.toString(), response.rawStatusCode())))
+				.bodyToMono(Response.class)
+				.retryWhen(Retry.backoff(2, Duration.ofSeconds(2))
+				          .filter(throwable -> {
+				        	  return throwable instanceof IntegrationException;
+				          }))
+				.doOnError(e ->{
+					 log.error("Exception="+e.getMessage());
+					 Mono.error(new IntegrationException("Unable to fetch product details, please try after sometime", 0));
+				})
+				.onErrorMap(e ->{
+					 log.error("ErrorMap="+e.getMessage());
+					 return new IntegrationException("Unable to fetch product details, please try after sometime");
 				})
 				.filter((resp)-> resp!=null && resp.isSuccess())
 				.flatMap((resp)->{

@@ -2,7 +2,6 @@ package com.review.adapter.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +9,8 @@ import com.review.adapter.entities.ProductReview;
 import com.review.adapter.repository.ReviewRepository;
 import com.review.domainlayer.service.ProductIntegrationService;
 import com.review.domainlayer.service.ReviewService;
-import com.review.dto.ProductDTO;
-import com.review.dto.Response;
-import com.review.exceptions.DuplicateRecordException;
 import com.review.exceptions.InvalidInputException;
 
-import brave.propagation.ExtraFieldPropagation;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
