@@ -1,0 +1,102 @@
+spring:
+  application:
+    name: cart-cmd-service
+
+server:
+  port: 8084
+--- 
+spring:
+  profiles: dev
+  data.mongodb:
+    host: localhost
+    port: 27017
+    database: cart-db
+  cloud:
+    bus:
+      id: cart-cmd-service-fbcb02b3-80df-48d2-8da4-18a089d27e8d
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
+jwt:
+  password:
+    encoder:
+      secret: oZr417KU7ipPoCCGY0-cPcGu0PpT1_aG9o-BD1KcnN3BpZPrLcNKgcF9QXXJwrY50Whd7Ij51t45oD0ctn-Vo032uFoMtnNzvzpOFq
+      iteration: 33
+      keylength: 256
+  secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
+  expiration: 28800 # token expiration in seconds
+app:
+  info: Cart Command Microservice
+  version: V1
+  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+url:
+  product: http://product-service
+--- 
+spring:
+  profiles: uat
+  data.mongodb:
+    host: localhost
+    port: 27017
+    database: cart-db
+  cloud:
+    bus:
+      id: cart-cmd-service-fbcb02b3-80df-48d2-8da4-18a089d27e8d
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
+jwt:
+  password:
+    encoder:
+      secret: oZr417KU7ipPoCCGY0-cPcGu0PpT1_aG9o-BD1KcnN3BpZPrLcNKgcF9QXXJwrY50Whd7Ij51t45oD0ctn-Vo032uFoMtnNzvzpOFq
+      iteration: 33
+      keylength: 256
+  secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
+  expiration: 28800 # token expiration in seconds
+app:
+  info: Cart Command Microservice
+  version: V1
+  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+url:
+  product: http://product-service     
+--- 
+spring:
+  profiles: prod
+  data.mongodb:
+    host: localhost
+    port: 27017
+    database: cart-db
+  cloud:
+    bus:
+      id: cart-cmd-service-fbcb02b3-80df-48d2-8da4-18a089d27e8d
+      enabled: true
+  kafka:
+    bootstrap-servers: http://localhost:9095      
+jwt:
+  password:
+    encoder:
+      secret: oZr417KU7ipPoCCGY0-cPcGu0PpT1_aG9o-BD1KcnN3BpZPrLcNKgcF9QXXJwrY50Whd7Ij51t45oD0ctn-Vo032uFoMtnNzvzpOFq
+      iteration: 33
+      keylength: 256
+  secret: AMDXGbO7gGwf3hoFPpm6GwQvFrqoCsn2 #This Secret For JWT HS256 Signature Algorithm MUST Have 256 bits KeySize
+  expiration: 28800 # token expiration in seconds
+app:
+  info: Cart Command Microservice
+  version: V1
+  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+url:
+  product: http://product-service
