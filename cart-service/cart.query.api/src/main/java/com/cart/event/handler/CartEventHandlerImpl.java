@@ -37,7 +37,7 @@ public class CartEventHandlerImpl implements CartEventHandler {
 		}
 		
 		CartItem cartItem2 = cartItem.cloneAllWithDefault();
-		
+		cartItem2.setAggrId(itemAdded.getId());
 		cartItem2 = cartRepo.save(cartItem2);
 		
 		log.info("Cart item added, id={}",cartItem2.getId());

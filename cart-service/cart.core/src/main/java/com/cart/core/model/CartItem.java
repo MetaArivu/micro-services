@@ -18,6 +18,8 @@ public class CartItem {
 	@Id
 	private String id;
 	
+	private String aggrId;
+	
 	private String prdId;
 	
 	private Integer qty;
