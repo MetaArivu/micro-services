@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cart.command.AddItemCommand;
+import com.cart.command.RemoveItemCommand;
 import com.cart.core.exception.ServiceException;
 import com.cart.domainlayer.service.CartService;
 
@@ -23,7 +24,7 @@ public class CartController {
 	@Autowired
 	private CartService cartSvc;
 
-	@PostMapping("/")
+	@PostMapping("/add")
 	public ResponseEntity<String> addItemEvent(@RequestBody AddItemCommand addItemCommand) {
 		try {
 			cartSvc.handle(addItemCommand);
@@ -32,7 +33,21 @@ public class CartController {
 		} catch (ServiceException e) {
 			log.error("ServiceException={}", e.getMessage());
 			e.printStackTrace();
+			return new ResponseEntity<String>("Create card command", HttpStatus.BAD_REQUEST);
+
+		}
+	}
+	
+	@PostMapping("/remove")
+	public ResponseEntity<String> removeItemEvent(@RequestBody RemoveItemCommand removeItemCommand) {
+		try {
+			cartSvc.handle(removeItemCommand);
 			return new ResponseEntity<String>("Create card command", HttpStatus.OK);
+
+		} catch (ServiceException e) {
+			log.error("ServiceException={}", e.getMessage());
+			e.printStackTrace();
+			return new ResponseEntity<String>("Create card command", HttpStatus.BAD_REQUEST);
 
 		}
 	}

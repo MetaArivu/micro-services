@@ -47,6 +47,18 @@ public class CartItem {
 			
 	}
 	
+	public CartItem cloneAndDeactivate() {
+		return CartItem.builder()
+			.prdId(this.getPrdId())
+			.qty(0)
+			.userId("1234")
+			.createDate(new Date())
+			.processed(false)
+			.active(false)
+			.build();
+			
+	}
+	
 	public CartItem init() {
 		return CartItem.builder()
 			.userId("1234")

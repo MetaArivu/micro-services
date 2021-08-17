@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 
 import com.cart.command.AddItemCommand;
 import com.cart.command.CreateCartCommand;
+import com.cart.command.RemoveItemCommand;
 import com.cart.core.event.CreateCartEvent;
 import com.cart.core.event.ItemAddedEvent;
+import com.cart.core.event.RemoveItemEvent;
 import com.cart.core.model.CartItem;
 
 @Aggregate
@@ -64,6 +66,27 @@ public class CartAggregate {
 	@EventSourcingHandler
 	public void on(ItemAddedEvent event) {
 		log.info("Item Added Event, id={}",event.getId());
+		this.id = event.getId();
+		this.cartItem = event.getCartItem();
+	}
+	
+	
+	@CommandHandler
+	public void handle(RemoveItemCommand command) {
+		
+		log.info("Remove Item Command Received, id={} ",command.getId());
+		CartItem cartItem = command.getCartItem();
+		RemoveItemEvent event = RemoveItemEvent.builder()
+				.id(command.getId())
+				.cartItem(cartItem)
+				.build();
+		
+		AggregateLifecycle.apply(event);
+	}
+	
+	@EventSourcingHandler
+	public void on(RemoveItemEvent event) {
+		log.info("Remove Item Event, id={}",event.getId());
 		this.id = event.getId();
 		this.cartItem = event.getCartItem();
 	}

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.cart.aggregate.CartItemRepo;
 import com.cart.command.AddItemCommand;
 import com.cart.command.CreateCartCommand;
+import com.cart.command.RemoveItemCommand;
 import com.cart.core.exception.ServiceException;
 import com.cart.core.model.CartItem;
 import com.cart.domainlayer.service.CartService;
@@ -28,8 +29,6 @@ public class CartServiceImpl implements CartService {
 	
 	@Override
 	public void handle(AddItemCommand addItemCommand) throws ServiceException {
-
-		
 		
 		AddItemCommand cmd = addItemCommand.cloneWithDefault();
 
@@ -64,4 +63,27 @@ public class CartServiceImpl implements CartService {
 		log.info("Create cart command raised, id={}", createCartCommand.getId());
 	}
 
+	@Override
+	public void handle(RemoveItemCommand removeItemCommand) throws ServiceException {
+		
+		RemoveItemCommand cmd = removeItemCommand.cloneWithDefault();
+
+		final String userid = cmd.getCartItem().getUserId();
+		
+		List<CartItem>  cartItems = cartRepo.findByUserIdAndProcessedAndActive(userid, false, true);
+
+		// This event should bee raised only when all cart item are processed..
+		if( cartItems.size() >0 )  {
+			for (CartItem cartItem : cartItems) {
+				cmd.setId(cartItem.getAggrId());
+			}
+			commandGateway.sendAndWait(cmd);
+			log.info("Remove Item command raised, id={}", cmd.getId());
+		} else {
+			throw new ServiceException("User cart not created");
+		}
+		
+		
+		
+	}
 }

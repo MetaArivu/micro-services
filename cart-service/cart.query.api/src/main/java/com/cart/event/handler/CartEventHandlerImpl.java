@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cart.core.event.ItemAddedEvent;
+import com.cart.core.event.RemoveItemEvent;
 import com.cart.core.model.CartItem;
 import com.cart.repo.CartItemsRepo;
 
@@ -21,26 +22,40 @@ public class CartEventHandlerImpl implements CartEventHandler {
 
 	@Autowired
 	private CartItemsRepo cartRepo;
-	
+
 	@Override
 	@EventHandler
 	public void on(ItemAddedEvent itemAdded) {
-		
-		log.info("Item added eveent, {} ",itemAdded);
+
+		log.info("Item added eveent, {} ", itemAdded);
 		CartItem cartItem = itemAdded.getCartItem();
-		
+
 		List<CartItem> cartItems = cartRepo.findByPrdIdAndUserIdAndProcessedAndActive(cartItem.getPrdId(), cartItem.getUserId(), false, true);
-		
+
 		for (CartItem cartItem2 : cartItems) {
 			cartItem2.deActivee();
 			cartRepo.save(cartItem2);
 		}
-		
+
 		CartItem cartItem2 = cartItem.cloneAllWithDefault();
 		cartItem2.setAggrId(itemAdded.getId());
 		cartItem2 = cartRepo.save(cartItem2);
-		
-		log.info("Cart item added, id={}",cartItem2.getId());
+
+		log.info("Cart item added, id={}", cartItem2.getId());
 	}
 
+	@Override
+	@EventHandler
+	public void on(RemoveItemEvent itemRemoved) {
+		// TODO Auto-generated method stub
+		log.info("Item Removed eveent, {} ", itemRemoved);
+		CartItem cartItem = itemRemoved.getCartItem();
+		
+		List<CartItem> cartItems = cartRepo.findByPrdIdAndUserIdAndProcessedAndActive(cartItem.getPrdId(), 	cartItem.getUserId(), false, true);
+
+		for (CartItem cartItem2 : cartItems) {
+			cartItem2.deActivee();
+			cartRepo.save(cartItem2);
+		}
+	}
 }
