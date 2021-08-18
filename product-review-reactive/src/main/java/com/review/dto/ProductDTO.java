@@ -6,6 +6,8 @@ public class ProductDTO {
 	private String name;
 	private String desc;
 	private Double amount;
+	private String image;
+	private Integer quantity;
 
 	public String getId() {
 		return id;
@@ -23,7 +25,6 @@ public class ProductDTO {
 		this.name = name;
 	}
 
-	
 	public String getDesc() {
 		return desc;
 	}
@@ -38,6 +39,22 @@ public class ProductDTO {
 
 	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.review.adapter.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import com.review.adapter.repository.ReviewRepository;
 import com.review.domainlayer.service.ProductIntegrationService;
 import com.review.domainlayer.service.ReviewService;
 import com.review.exceptions.InvalidInputException;
+import com.review.server.secutiry.JWTUtil;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,6 +27,15 @@ public class ReviewServiceImpl implements ReviewService {
 	@Autowired
 	private ProductIntegrationService prdIntSvc;
 
+	@Autowired
+	private JWTUtil jwtUtil;
+	
+	private String userName() {
+		String authHeader = MDC.get("Authorization");
+		String authToken = authHeader.substring(7);
+		log.info("Authorization=" + authToken);
+		return jwtUtil.getUsernameFromToken(authToken);
+	}
 	@Override
 	public Flux<ProductReview> reviewsByProduc(String _id){
 		
@@ -39,6 +50,7 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public Mono<ProductReview> save(ProductReview _prdReview) {
 		
+		
 		if(_prdReview==null || !_prdReview.isValid()) {
 			Mono<ProductReview> fallback = Mono.error( new InvalidInputException(ProductReview.invalidMsg()));
 			return fallback;
@@ -47,6 +59,7 @@ public class ReviewServiceImpl implements ReviewService {
 				 .flatMap((prd)->{
 					 log.info("Prod="+prd);
 					 _prdReview.setProductName(prd.getName());
+					 _prdReview.updateUser(this.userName());
 					 return prdReviewRepo.save(_prdReview);
 				 })
 				 .switchIfEmpty(Mono.error(new InvalidInputException("Invalid product id")));

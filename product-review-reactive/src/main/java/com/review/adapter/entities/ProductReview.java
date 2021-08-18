@@ -15,7 +15,8 @@ public class ProductReview extends BaseEntity {
 	private Integer rating;
 	private String userId;
 	private String userName;
-
+	
+	
 	public ProductReview() {
 		super();
 		this.active = true;
@@ -70,6 +71,13 @@ public class ProductReview extends BaseEntity {
 		this.userName = userName;
 	}
 
+	public void updateUser(String userName) {
+		this.userId = userName;
+		this.userName = userName;
+		this.active = true;
+		this.createdBy = userName;
+		this.createdDate = new Date();
+	}
 	@JsonIgnore
 	@Override
 	public boolean isValid() {

@@ -19,11 +19,11 @@
 		</rollingPolicy>
 		<encoder>
 			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSSS}| %p| %thread| %X{traceId}| %logger{3} | %m%n</pattern>
-		</encoder>
+		</encoder> 
 	</appender>
 
 	
-	<logger name="com.user" level="info">
+	<logger name="com.product" level="debug">
 		<appender-ref ref="STDOUT" />
 	</logger>
 

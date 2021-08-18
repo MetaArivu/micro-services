@@ -48,6 +48,22 @@ public class ReviewController {
 							new Response<ProductReview>(false, "Record Not Saved Successully"), HttpStatus.NOT_FOUND));
 			
 	}
+	
+	
+	@GetMapping(value = "/{id}")
+	public Mono<ResponseEntity<Response<List<ProductReview>>>> reviewsByProduc(@PathVariable("id") String id) {
+		
+			return reviewSvc.reviewsByProduc(id)
+					.collectList()
+					.map(list -> {
+						return new ResponseEntity<Response<List<ProductReview>>>(
+								new Response<List<ProductReview>>(true, "Record Saved Successully", list), HttpStatus.OK);
+					})
+					.defaultIfEmpty(new ResponseEntity<Response<List<ProductReview>>>(
+							new Response<List<ProductReview>>(false, "Record Not Saved Successully"), HttpStatus.NOT_FOUND));
+			
+	}
+
 
 
 	@DeleteMapping(value = "/{id}")

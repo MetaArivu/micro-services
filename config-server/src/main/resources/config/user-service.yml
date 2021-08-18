@@ -63,7 +63,6 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
 
-Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIlJPTEVfQURNSU4iXSwic3ViIjoia2V0YW4uZ290ZSIsImlhdCI6MTYyOTI3MTE0NiwiZXhwIjoxNjI5Mjk5OTQ2fQ.6Y1zoLeNtJT6sBPeh-6EeJjeaSFZGq8ENPCAotxDpg
 --- 
 spring:
   profiles: prod

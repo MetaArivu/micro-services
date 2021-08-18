@@ -28,97 +28,79 @@ import reactor.test.StepVerifier;
 public class ProductRepositoryTest {
 
 	private Logger log = LoggerFactory.getLogger(ProductRepositoryTest.class);
-	
+
 	@Autowired
 	private ProductsRepository prdRepo;
 
-	private List<Products> products = Arrays.asList(new Products("Apple 5", "Apple 5", 50000.0),
-			new Products("Apple 6", "Apple 6", 60000.0), 
-			new Products("Apple 7", "Apple 7", 70000.0),
-			new Products("Apple 8", "Apple 8", 80000.0),
-			new Products("Apple 9", "Apple 9", 90000.0),
-			new Products("Apple 10", "Apple 10", 100000.0), 
-			new Products("Apple 11", "Apple 11", 110000.0),
-			new Products("Apple 12", "Apple 12", 120000.0));
+	private List<Products> products = Arrays.asList(new Products("Apple 5", "Apple 5", "image.png", 10, 50000.0),
+			new Products("Apple 6", "Apple 6", "image.png", 10, 60000.0),
+			new Products("Apple 7", "Apple 7", "image.png", 10, 70000.0),
+			new Products("Apple 8", "Apple 8", "image.png", 10, 80000.0),
+			new Products("Apple 9", "Apple 9", "image.png", 10, 90000.0),
+			new Products("Apple 10", "Apple 10", "image.png", 10, 100000.0),
+			new Products("Apple 11", "Apple 11", "image.png", 10, 110000.0),
+			new Products("Apple 12", "Apple 12", "image.png", 10, 120000.0));
 
 	@BeforeAll
 	@DisplayName("Setup Products")
-	public  void initializeProduct() {
+	public void initializeProduct() {
 		log.info("Setting up product collection with default data for testing.");
-		prdRepo.deleteAll()
-				.thenMany(Flux.fromIterable(products))
-				.flatMap(prd -> prdRepo.save(prd))
-				.doOnNext((prd->{
-					log.info("Product="+prd);
-				}))
-				.blockLast();
-				
+		prdRepo.deleteAll().thenMany(Flux.fromIterable(products)).flatMap(prd -> prdRepo.save(prd)).doOnNext((prd -> {
+			log.info("Product=" + prd);
+		})).blockLast();
+
 	}
 
 	@Test
 	@DisplayName("Find All Productcs")
 	public void allProducts() {
 		log.info("Find all products");
-		StepVerifier.create(prdRepo.findAll())
-				.expectSubscription()
-				.expectNextCount(8)
-				.verifyComplete();
+		StepVerifier.create(prdRepo.findAll()).expectSubscription().expectNextCount(8).verifyComplete();
 	}
 
 	@Test
 	@DisplayName("Find Product By Name")
 	public void findByName() {
 		log.info("Find product by name");
-		StepVerifier.create(prdRepo.findByName("Apple 5"))
-			.expectSubscription()
-			.expectNextCount(1)
-			.verifyComplete();
+		StepVerifier.create(prdRepo.findByName("Apple 5")).expectSubscription().expectNextCount(1).verifyComplete();
 	}
-	
+
 	@Test
 	@DisplayName("Find Product By Active Status")
 	public void findByActive() {
 		log.info("Find Product By Active Status");
-		StepVerifier.create(prdRepo.findByActive(false))
-			.expectSubscription()
-			.expectNextCount(0)
-			.verifyComplete();
+		StepVerifier.create(prdRepo.findByActive(false)).expectSubscription().expectNextCount(0).verifyComplete();
 	}
-	
+
 	@Test
 	@DisplayName("Save New Product")
 	public void saveProduct() {
-		Products _product = new Products("Apple 13", "Apple 13", 130000.0);
-		log.info("Save New Product "+_product);
+		Products _product = new Products("Apple 13", "Apple 13", "image.png", 10, 130000.0);
+		log.info("Save New Product " + _product);
 		Mono<Products> product = prdRepo.save(_product);
-		
-		StepVerifier.create(product)
-					.expectSubscription()
-					.expectNextMatches((prd) -> (prd!=null && prd.getId()!=null && prd.getName().equalsIgnoreCase("Apple 13")))
-					.verifyComplete();
+
+		StepVerifier.create(product).expectSubscription()
+				.expectNextMatches(
+						(prd) -> (prd != null && prd.getId() != null && prd.getName().equalsIgnoreCase("Apple 13")))
+				.verifyComplete();
 	}
-	
+
 	@Test
 	@DisplayName("Update Product")
 	public void updateProduct() {
 		double newPrice = 48000;
 		log.info("Update Product");
-		Mono<Products> updatedProduct = prdRepo.findByName("Apple 5")
-				.map((prd) ->{
-					prd.setAmount(newPrice);
-					return prd;
-				})
-				.flatMap(prd ->{
-					return prdRepo.save(prd);
-				});
-		
-		StepVerifier.create(updatedProduct)
-					.expectSubscription()
-					.expectNextMatches((prd) -> (prd!=null && prd.getId()!=null && prd.getAmount().equals(new Double(newPrice))))
-					.verifyComplete();
+		Mono<Products> updatedProduct = prdRepo.findByName("Apple 5").map((prd) -> {
+			prd.setAmount(newPrice);
+			return prd;
+		}).flatMap(prd -> {
+			return prdRepo.save(prd);
+		});
+
+		StepVerifier.create(updatedProduct).expectSubscription()
+				.expectNextMatches(
+						(prd) -> (prd != null && prd.getId() != null && prd.getAmount().equals(new Double(newPrice))))
+				.verifyComplete();
 	}
-	
-	
-	
-	
+
 }
