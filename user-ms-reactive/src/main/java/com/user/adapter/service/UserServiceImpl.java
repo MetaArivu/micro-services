@@ -12,6 +12,7 @@ import com.user.exceptions.DuplicateRecordException;
 import com.user.exceptions.InvalidInputException;
 import com.user.server.secutiry.JWTUtil;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -60,4 +61,11 @@ public class UserServiceImpl implements UserService {
 					return fallback;
 				})
 				.switchIfEmpty(userRepo.save(_user));
-	} }
+	} 
+	
+	@Override
+	public Flux<UserDetails> allUsers() {
+		return userRepo.findByActive(true);
+	}
+	
+}

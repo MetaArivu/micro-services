@@ -28,7 +28,7 @@ jwt:
 app:
   info: User Microservice
   version: V1
-  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  public_routes: /actuator/**,/welcome,/api/v1/login,/api/v1/register,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 eureka:
   client:
     serviceUrl:
@@ -57,12 +57,13 @@ jwt:
 app:
   info: User Microservice
   version: V1
-  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  public_routes: /actuator/**,/welcome,/api/v1/login,/api/v1/register,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
 
+Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbIlJPTEVfQURNSU4iXSwic3ViIjoia2V0YW4uZ290ZSIsImlhdCI6MTYyOTI3MTE0NiwiZXhwIjoxNjI5Mjk5OTQ2fQ.6Y1zoLeNtJT6sBPeh-6EeJjeaSFZGq8ENPCAotxDpg
 --- 
 spring:
   profiles: prod
@@ -87,7 +88,7 @@ jwt:
 app:
   info: User Microservice
   version: V1
-  public_routes: /actuator/**,/welcome,/api/v1/login,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
+  public_routes: /actuator/**,/welcome,/api/v1/login,/api/v1/register,/swagger-ui.html,/webjars/**,/v3/**,/favicon.ico
 
 eureka:
   client:
