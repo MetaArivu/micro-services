@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cart.core.exception.ServiceException;
 import com.cart.core.model.CartItem;
+import com.cart.core.model.RequestHelper;
 import com.cart.domainlayer.service.CartQueryService;
 import com.cart.repo.CartItemsRepo;
 
@@ -20,9 +21,12 @@ public class CartQueryServiceImpl implements CartQueryService {
 	@Autowired
 	private CartItemsRepo cartRepo;
 
+	@Autowired
+	private RequestHelper reqHelper;
+	
 	@Override
 	public List<CartItem> userCart() throws ServiceException {
-		List<CartItem> userCart = cartRepo.findByUserIdAndProcessedAndActive("1234", false, true);
+		List<CartItem> userCart = cartRepo.findByUserIdAndProcessedAndActive(reqHelper.getUserId(), false, true);
 		if (userCart.size() == 0) {
 			throw new ServiceException("User cart is empty");
 		}

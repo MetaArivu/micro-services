@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cart.command.AddItemCommand;
 import com.cart.command.RemoveItemCommand;
 import com.cart.core.exception.ServiceException;
+import com.cart.core.model.Response;
 import com.cart.domainlayer.service.CartService;
 
 @RestController
@@ -25,30 +26,29 @@ public class CartController {
 	private CartService cartSvc;
 
 	@PostMapping("/add")
-	public ResponseEntity<String> addItemEvent(@RequestBody AddItemCommand addItemCommand) {
+	public ResponseEntity<Response<String>> addItemEvent(@RequestBody AddItemCommand addItemCommand) {
 		try {
 			cartSvc.handle(addItemCommand);
-			return new ResponseEntity<String>("Create card command", HttpStatus.OK);
+			return new ResponseEntity<Response<String>>(new Response<String>(true, "Item Added To User Cart"),
+					HttpStatus.OK);
 
 		} catch (ServiceException e) {
 			log.error("ServiceException={}", e.getMessage());
-			e.printStackTrace();
-			return new ResponseEntity<String>("Create card command", HttpStatus.BAD_REQUEST);
-
+			return new ResponseEntity<Response<String>>(new Response<String>(false, "Unable To Add Item To User Cart"),
+					HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@PostMapping("/remove")
-	public ResponseEntity<String> removeItemEvent(@RequestBody RemoveItemCommand removeItemCommand) {
+	public ResponseEntity<Response<String>> removeItemEvent(@RequestBody RemoveItemCommand removeItemCommand) {
 		try {
 			cartSvc.handle(removeItemCommand);
-			return new ResponseEntity<String>("Create card command", HttpStatus.OK);
-
+			return new ResponseEntity<Response<String>>(new Response<String>(true, "Item Removed From User Cart"),
+					HttpStatus.OK);
 		} catch (ServiceException e) {
 			log.error("ServiceException={}", e.getMessage());
-			e.printStackTrace();
-			return new ResponseEntity<String>("Create card command", HttpStatus.BAD_REQUEST);
-
+			return new ResponseEntity<Response<String>>(
+					new Response<String>(false, "Unable To Remove Item From User Cart"), HttpStatus.BAD_REQUEST);
 		}
 	}
 }

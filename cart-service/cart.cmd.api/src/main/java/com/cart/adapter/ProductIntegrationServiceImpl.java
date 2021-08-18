@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.cart.core.config.AppProperties;
+import com.cart.core.model.Response;
 import com.cart.domainlayer.service.ProductIntegrationService;
 import com.cart.dto.ProductDTO;
-import com.cart.dto.Response;
 import com.cart.exceptions.IntegrationException;
 import com.cart.exceptions.InvalidInputException;
 import com.fasterxml.jackson.core.JsonProcessingException;

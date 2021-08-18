@@ -9,11 +9,14 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.cart.core.model.RequestHelper;
+import com.cart.core.model.Response;
 
 
 @Component
@@ -30,19 +33,24 @@ public class RequestInterceptor {
 	
 	@Around("allOperations()")
 	public Object validateToken(ProceedingJoinPoint joinPoint) throws Throwable {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+		try {
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+			
+			String token = request.getHeader("Authorization");
+			token = token.substring(7).trim();
+			log.info("Authorization="+token);
+			String userName = jwtUtil.getUsernameFromToken(token);
+			log.info("username="+userName);
+			
+			reqHelper.update(userName, token);
+			
+			Object obj = joinPoint.proceed();
+			log.info(joinPoint.getTarget().getClass().getName()+"| "+joinPoint.getSignature().getName());
+			return obj;
+		}catch (Exception e) {
+			return new ResponseEntity<Response<String>>(new Response<String>(false, "Invalid Token"), HttpStatus.FORBIDDEN);
+		}
 		
-		String token = request.getHeader("Authorization");
-		token = token.substring(7).trim();
-		log.info("Authorization="+token);
-		String userName = jwtUtil.getUsernameFromToken(token);
-		log.info("username="+userName);
-		
-		reqHelper.update(userName, token);
-		
-		Object obj = joinPoint.proceed();
-		log.info(joinPoint.getTarget().getClass().getName()+"| "+joinPoint.getSignature().getName());
-		return obj;
 	}
 
 	@Pointcut("execution(* com.cart.controller.v1.*..*(..))")

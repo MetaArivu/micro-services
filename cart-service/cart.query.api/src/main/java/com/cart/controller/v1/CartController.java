@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cart.core.exception.ServiceException;
 import com.cart.core.model.CartItem;
+import com.cart.core.model.Response;
 import com.cart.domainlayer.service.CartQueryService;
 
 @RestController
@@ -25,14 +26,15 @@ public class CartController {
 	private CartQueryService cartQuerySvc;
 
 	@GetMapping("/")
-	public ResponseEntity<List<CartItem>> userCart() {
+	public ResponseEntity<Response<List<CartItem>>> userCart() {
 
 		try {
-			return new ResponseEntity<List<CartItem>>(cartQuerySvc.userCart(), HttpStatus.OK);
+			return new ResponseEntity<Response<List<CartItem>>>(
+					new Response<List<CartItem>>(true, "User Cart Details", cartQuerySvc.userCart()), HttpStatus.OK);
 		} catch (ServiceException e) {
 			log.warn("ServiceException={}", e.getMessage());
-			e.printStackTrace();
-			return new ResponseEntity<List<CartItem>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Response<List<CartItem>>>(
+					new Response<List<CartItem>>(false, "User Cart Details Not Found"), HttpStatus.NOT_FOUND);
 		}
 
 	}
