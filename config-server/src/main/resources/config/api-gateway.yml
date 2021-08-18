@@ -35,6 +35,18 @@ spring:
         - Path=/rsvc/**      
         filters:
         - RewritePath=/rsvc/(?<segment>.*), /$\{segment}
+      - id: cart-cmd-service
+        uri: lb://cart-cmd-service
+        predicates:
+        - Path=/cartcmd/**      
+        filters:
+        - RewritePath=/cartcmd/(?<segment>.*), /$\{segment}
+      - id: cart-query-service
+        uri: lb://cart-query-service
+        predicates:
+        - Path=/cartquery/**      
+        filters:
+        - RewritePath=/cartquery/(?<segment>.*), /$\{segment}
   kafka:
     bootstrap-servers: http://localhost:9095   
   gateway:
