@@ -20,11 +20,11 @@ public class AddItemCommand {
 
 	private CartItem cartItem;
 
-	public AddItemCommand cloneWithDefault() {
+	public AddItemCommand cloneWithDefault(String user) {
 		return AddItemCommand
 				.builder()
 				.id(UUID.randomUUID().toString())
-				.cartItem(this.getCartItem().cloneAllWithDefault())
+				.cartItem(this.getCartItem().cloneAllWithDefault(user))
 				.build();
 	}
 }

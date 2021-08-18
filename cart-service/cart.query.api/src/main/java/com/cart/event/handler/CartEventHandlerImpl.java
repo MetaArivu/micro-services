@@ -27,7 +27,7 @@ public class CartEventHandlerImpl implements CartEventHandler {
 	@EventHandler
 	public void on(ItemAddedEvent itemAdded) {
 
-		log.info("Item added eveent, {} ", itemAdded);
+		log.info("Item added event, {} ", itemAdded);
 		CartItem cartItem = itemAdded.getCartItem();
 
 		List<CartItem> cartItems = cartRepo.findByPrdIdAndUserIdAndProcessedAndActive(cartItem.getPrdId(), cartItem.getUserId(), false, true);
@@ -37,10 +37,9 @@ public class CartEventHandlerImpl implements CartEventHandler {
 			cartRepo.save(cartItem2);
 		}
 
-		CartItem cartItem2 = cartItem.cloneAllWithDefault();
+		CartItem cartItem2 = cartItem.cloneAllWithDefault(itemAdded.getCartItem().getUserId());
 		cartItem2.setAggrId(itemAdded.getId());
 		cartItem2 = cartRepo.save(cartItem2);
-
 		log.info("Cart item added, id={}", cartItem2.getId());
 	}
 
@@ -48,7 +47,7 @@ public class CartEventHandlerImpl implements CartEventHandler {
 	@EventHandler
 	public void on(RemoveItemEvent itemRemoved) {
 		// TODO Auto-generated method stub
-		log.info("Item Removed eveent, {} ", itemRemoved);
+		log.info("Item Removed event, {} ", itemRemoved);
 		CartItem cartItem = itemRemoved.getCartItem();
 		
 		List<CartItem> cartItems = cartRepo.findByPrdIdAndUserIdAndProcessedAndActive(cartItem.getPrdId(), 	cartItem.getUserId(), false, true);

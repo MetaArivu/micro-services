@@ -20,11 +20,11 @@ public class RemoveItemCommand {
 
 	private CartItem cartItem;
 
-	public RemoveItemCommand cloneWithDefault() {
+	public RemoveItemCommand cloneWithDefault(String user) {
 		return RemoveItemCommand
 				.builder()
 				.id(UUID.randomUUID().toString())
-				.cartItem(this.getCartItem().cloneAndDeactivate())
+				.cartItem(this.getCartItem().cloneAndDeactivate(user))
 				.build();
 	}
 }

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import com.cart.aggregate.CartItemRepo;
 import com.cart.command.AddItemCommand;
@@ -14,9 +15,13 @@ import com.cart.command.CreateCartCommand;
 import com.cart.command.RemoveItemCommand;
 import com.cart.core.exception.ServiceException;
 import com.cart.core.model.CartItem;
+import com.cart.core.model.RequestHelper;
 import com.cart.domainlayer.service.CartService;
+import com.cart.dto.ProductDTO;
+import com.netflix.discovery.converters.Auto;
 
 @Service
+@RequestScope
 public class CartServiceImpl implements CartService {
 
 	private Logger log = LoggerFactory.getLogger(CartServiceImpl.class);
@@ -27,10 +32,22 @@ public class CartServiceImpl implements CartService {
 	@Autowired
 	private CartItemRepo cartRepo;
 	
+	@Autowired
+	private ProductIntegrationServiceImpl prdIntSvc;
+	
+	@Autowired
+	private RequestHelper helper;
+	
+	
 	@Override
 	public void handle(AddItemCommand addItemCommand) throws ServiceException {
 		
-		AddItemCommand cmd = addItemCommand.cloneWithDefault();
+		ProductDTO prd = prdIntSvc.getProductDetails(addItemCommand.getCartItem().getPrdId());
+		
+		addItemCommand.getCartItem().setProductName(prd.getName());
+		addItemCommand.getCartItem().setPricePerUnit(prd.getAmount());
+		System.out.println("PRD="+prd);
+		AddItemCommand cmd = addItemCommand.cloneWithDefault(helper.getUserId());
 
 		final String userid = cmd.getCartItem().getUserId();
 		
@@ -56,7 +73,7 @@ public class CartServiceImpl implements CartService {
 		CreateCartCommand createCartCommand = CreateCartCommand
 				.builder()
 				.id(cmd.getId())
-				.cartItem(cmd.getCartItem().init())
+				.cartItem(cmd.getCartItem().init(helper.getUserId()))
 				.build();
 
 		commandGateway.sendAndWait(createCartCommand);
@@ -66,7 +83,7 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public void handle(RemoveItemCommand removeItemCommand) throws ServiceException {
 		
-		RemoveItemCommand cmd = removeItemCommand.cloneWithDefault();
+		RemoveItemCommand cmd = removeItemCommand.cloneWithDefault(helper.getUserId());
 
 		final String userid = cmd.getCartItem().getUserId();
 		

@@ -22,7 +22,13 @@ public class CartItem {
 	
 	private String prdId;
 	
+	private String productName;
+	
+	private Double pricePerUnit;
+	
 	private Integer qty;
+	
+	private Double totalPrice;
 	
 	private String userId;
 	
@@ -35,11 +41,14 @@ public class CartItem {
 	private boolean active;
 
 	
-	public CartItem cloneAllWithDefault() {
+	public CartItem cloneAllWithDefault(String user) {
 		return CartItem.builder()
 			.prdId(this.getPrdId())
+			.productName(this.getProductName())
+			.pricePerUnit(this.getPricePerUnit())
 			.qty(this.getQty())
-			.userId("1234")
+			.totalPrice(this.getPricePerUnit()*this.getQty())
+			.userId(user)
 			.createDate(new Date())
 			.processed(false)
 			.active(true)
@@ -47,11 +56,11 @@ public class CartItem {
 			
 	}
 	
-	public CartItem cloneAndDeactivate() {
+	public CartItem cloneAndDeactivate(String user) {
 		return CartItem.builder()
 			.prdId(this.getPrdId())
 			.qty(0)
-			.userId("1234")
+			.userId(user)
 			.createDate(new Date())
 			.processed(false)
 			.active(false)
@@ -59,9 +68,9 @@ public class CartItem {
 			
 	}
 	
-	public CartItem init() {
+	public CartItem init(String user) {
 		return CartItem.builder()
-			.userId("1234")
+			.userId(user)
 			.createDate(new Date())
 			.processed(false)
 			.active(true)
