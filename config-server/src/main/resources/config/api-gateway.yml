@@ -47,6 +47,12 @@ spring:
         - Path=/cartquery/**      
         filters:
         - RewritePath=/cartquery/(?<segment>.*), /$\{segment}
+      - id: order-service
+        uri: lb://order-service
+        predicates:
+        - Path=/osvc/**      
+        filters:
+        - RewritePath=/osvc/(?<segment>.*), /$\{segment}
   kafka:
     bootstrap-servers: http://localhost:9095   
   gateway:
@@ -54,7 +60,7 @@ spring:
       locator:
         enabled: true   
 app:
-  info: Naming Server Microservice
+  info: API Gateway 
   version: V1
   public_routes: /actuator/**,/favicon.ico
 eureka:

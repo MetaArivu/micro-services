@@ -1,5 +1,7 @@
 package com.product.adapter.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -42,6 +44,16 @@ public class ProductServiceImpl implements ProductService {
 		}
 
 		return prdRepo.findByIdAndActive(_id, true);
+	}
+	
+	@Override
+	public Flux<Products> findById(List<String> prdIds) {
+		if (prdIds == null) {
+			Flux<Products> fallback = Flux.error(new InvalidInputException("Invalid Id=" + prdIds));
+			return fallback;
+		}
+
+		return prdRepo.findByIdInAndActive(prdIds, true);
 	}
 
 	@Override

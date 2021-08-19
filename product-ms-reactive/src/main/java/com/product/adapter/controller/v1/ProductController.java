@@ -68,6 +68,20 @@ public class ProductController {
 							new Response<Products>(false, "Record Not Saved Successully"), HttpStatus.NOT_FOUND));
 			
 	}
+	
+	@PostMapping(value = "/products/")
+	public Mono<ResponseEntity<Response<List<Products>>>> findById(@RequestBody List<String> prdIds) {
+		
+			return prdSvc.findById(prdIds)
+					.collectList()
+					.map(prd -> {
+						return new ResponseEntity<Response<List<Products>>>(
+								new Response<List<Products>>(true, "Record Saved Successully", prd), HttpStatus.OK);
+					})
+					.defaultIfEmpty(new ResponseEntity<Response<List<Products>>>(
+							new Response<List<Products>>(false, "Record Not Saved Successully"), HttpStatus.NOT_FOUND));
+			
+	}
 
 	@PutMapping(value = "/{id}")
 	public Mono<ResponseEntity<Response<Products>>> update(@PathVariable("id") String id, @RequestBody Products product) {
