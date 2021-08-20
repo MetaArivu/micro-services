@@ -17,6 +17,7 @@ import com.order.domainlayer.service.OrderService;
 import com.order.dto.ProductDTO;
 import com.order.server.secutiry.JWTUtil;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -85,6 +86,11 @@ public class OrderServiceImpl implements OrderService {
 				return Mono.just(prdMap);
 			});
 		 
+	}
+	
+	@Override
+	public Flux<Order> userOrderDetails() {
+		return orderRepo.findByUserIdAndActive(this.userName(), true);
 	}
 
 }

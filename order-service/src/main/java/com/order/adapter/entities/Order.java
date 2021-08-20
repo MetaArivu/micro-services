@@ -7,8 +7,11 @@ import java.util.List;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Document(value = "orders")
+@JsonInclude(value = Include.NON_NULL)
 public class Order extends BaseEntity {
 
 	private Date orderDate;
@@ -24,6 +27,11 @@ public class Order extends BaseEntity {
 	public Order() {
 		super();
 		this.active = true;
+	}
+	
+	public Order(String orderId, long orderNo) {
+		this.id = orderId;
+		this.orderNo = orderNo;
 	}
 
 	public Date getOrderDate() {

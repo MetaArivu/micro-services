@@ -11,4 +11,5 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface OrderRepository extends ReactiveMongoRepository<Order, String> {
 
+	public Flux<Order> findByUserIdAndActive(String userId, boolean active);
 }

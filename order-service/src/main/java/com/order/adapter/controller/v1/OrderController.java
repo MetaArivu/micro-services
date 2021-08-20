@@ -37,12 +37,29 @@ public class OrderController {
 	@PostMapping(value = "/")
 	public Mono<ResponseEntity<Response<Order>>> save(@RequestBody Order order) {
 
-		return orderSvc.createOrder(order).map(prd -> {
-			return new ResponseEntity<Response<Order>>(new Response<Order>(true, "Order Created Successully", prd),
-					HttpStatus.OK);
-		}).defaultIfEmpty(new ResponseEntity<Response<Order>>(new Response<Order>(false, "Cannot Place Order"),
-				HttpStatus.NOT_FOUND));
+		return orderSvc.createOrder(order)
+				.map(prd -> {
+						return new ResponseEntity<Response<Order>>(new Response<Order>(true, "Order Created Successully", new  Order(prd.getId(), prd.getOrderNo())),
+						HttpStatus.OK);
+				})
+				.defaultIfEmpty(new ResponseEntity<Response<Order>>(new Response<Order>(false, "Cannot Place Order"), HttpStatus.NOT_FOUND));
 
 	}
+	
+	
+	@GetMapping(value = "/")
+	public Mono<ResponseEntity<Response<List<Order>>>> userOrderDetails() {
+
+		return orderSvc.userOrderDetails()
+				.collectList()
+				.map(orders -> {
+					return new ResponseEntity<Response<List<Order>>>(new Response<List<Order>>(true, "User Order Details", orders),
+					HttpStatus.OK);
+				})
+				.defaultIfEmpty(new ResponseEntity<Response<List<Order>>>(new Response<List<Order>>(false, "User has not placed any order"), HttpStatus.NOT_FOUND));
+
+	}
+	
+	
 
 }

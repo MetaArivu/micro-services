@@ -9,5 +9,7 @@ import reactor.core.publisher.Mono;
 public interface OrderService {
 
 	public Mono<Order> createOrder(Order _order);
+	
+	public Flux<Order> userOrderDetails();
 
 }
