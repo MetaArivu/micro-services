@@ -22,13 +22,15 @@ public class Order extends BaseEntity {
 	private Double totalAmount;
 	private boolean placed;
 	private boolean payment;
+	private String paymentId;
+	private Date paymentDate;
 	private long orderNo;
 
 	public Order() {
 		super();
 		this.active = true;
 	}
-	
+
 	public Order(String orderId, long orderNo, Double totalAmount) {
 		this.id = orderId;
 		this.orderNo = orderNo;
@@ -97,6 +99,22 @@ public class Order extends BaseEntity {
 
 	public void setPayment(boolean payment) {
 		this.payment = payment;
+	}
+
+	public String getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
+
+	public Date getPaymentDate() {
+		return paymentDate;
+	}
+
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
 	}
 
 	public long getOrderNo() {
