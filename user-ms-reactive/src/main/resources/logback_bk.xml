@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSSS}| %p| %thread| %X{traceId}| %logger{3} | %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="APPLOGFILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/tmp/logs/pms/pms.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/tmp/logs/pms/pms.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>20MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSSS}| %p| %thread| %X{traceId}| %logger{3} | %m%n</pattern>
+		</encoder>
+	</appender>
+
+	
+	<logger name="com.user" level="info">
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+</configuration>

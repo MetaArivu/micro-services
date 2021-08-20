@@ -53,6 +53,12 @@ spring:
         - Path=/osvc/**      
         filters:
         - RewritePath=/osvc/(?<segment>.*), /$\{segment}
+      - id: payment-service
+        uri: lb://payment-service
+        predicates:
+        - Path=/pymtsvc/**      
+        filters:
+        - RewritePath=/pymtsvc/(?<segment>.*), /$\{segment}
   kafka:
     bootstrap-servers: http://localhost:9095   
   gateway:

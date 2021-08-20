@@ -38,8 +38,8 @@ public class OrderController {
 	public Mono<ResponseEntity<Response<Order>>> save(@RequestBody Order order) {
 
 		return orderSvc.createOrder(order)
-				.map(prd -> {
-						return new ResponseEntity<Response<Order>>(new Response<Order>(true, "Order Created Successully", new  Order(prd.getId(), prd.getOrderNo())),
+				.map(ord -> {
+						return new ResponseEntity<Response<Order>>(new Response<Order>(true, "Order Created Successully", new  Order(ord.getId(), ord.getOrderNo(), ord.getTotalAmount())),
 						HttpStatus.OK);
 				})
 				.defaultIfEmpty(new ResponseEntity<Response<Order>>(new Response<Order>(false, "Cannot Place Order"), HttpStatus.NOT_FOUND));

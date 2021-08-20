@@ -29,9 +29,10 @@ public class Order extends BaseEntity {
 		this.active = true;
 	}
 	
-	public Order(String orderId, long orderNo) {
+	public Order(String orderId, long orderNo, Double totalAmount) {
 		this.id = orderId;
 		this.orderNo = orderNo;
+		this.totalAmount = totalAmount;
 	}
 
 	public Date getOrderDate() {

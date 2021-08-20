@@ -15,7 +15,7 @@ public class AppEventListener {
 	  
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
-		log.info("Product Service getting started..");
+		log.info("Payment Service getting started..");
 	}
 
 }
