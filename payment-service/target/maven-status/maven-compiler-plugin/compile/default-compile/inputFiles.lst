@@ -10,10 +10,12 @@
 /Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/server/RequestFilter.java
 /Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/server/AppEventListener.java
 /Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/PaymentMsReactiveApplication.java
+/Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/KafkaConfiguration.java
 /Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/server/secutiry/AuthenticationManager.java
 /Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/adapter/controller/v1/PaymentController.java
 /Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/adapter/entities/BaseEntity.java
 /Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/adapter/repository/PaymentRepository.java
+/Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/event/PaymentEvent.java
 /Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/server/secutiry/WebSecurityConfig.java
 /Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/exceptions/InvalidInputException.java
 /Users/ketangote/workspace_learning/micro-services/payment-service/src/main/java/com/payment/exceptions/PaymentException.java
