@@ -1,0 +1,15 @@
+version: '2'
+services:
+    naming-server:
+        container_name: naming-server
+        build:
+            context: naming-server
+            dockerfile: Dockerfile
+        image: naming-server:latest
+        ports:
+            - 8761:8761
+        networks:
+            - my_network
+networks:
+    my_network:
+        driver: bridge

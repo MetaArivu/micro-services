@@ -17,7 +17,7 @@ spring:
       id: naming-server-fbcb02b3-80df-48d2-8da4-18a089d27e8d
       enabled: true
   kafka:
-    bootstrap-servers: http://localhost:9095      
+    bootstrap-servers: http://192.168.1.7:9095      
 app:
   info: Naming Server Microservice
   version: V1
@@ -31,7 +31,7 @@ spring:
       id: naming-server-fbcb02b3-80df-48d2-8da4-18a089d27e8d
       enabled: true
   kafka:
-    bootstrap-servers: http://localhost:9095      
+    bootstrap-servers: http://192.168.1.7:9095      
 app:
   info: Naming Server Microservice
   version: V1
@@ -45,7 +45,7 @@ spring:
       id: naming-server-fbcb02b3-80df-48d2-8da4-18a089d27e8d
       enabled: true
   kafka:
-    bootstrap-servers: http://localhost:9095      
+    bootstrap-servers: http://192.168.1.7:9095      
 app:
   info: Naming Server Microservice
   version: V1

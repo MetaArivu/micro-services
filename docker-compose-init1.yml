@@ -1,0 +1,15 @@
+version: '2'
+services:
+    config-server:
+        container_name: config-server
+        build:
+            context: config-server
+            dockerfile: Dockerfile
+        image: config-server:latest
+        ports:
+            - 8888:8888
+        networks:
+            - my_network
+networks:
+    my_network:
+        driver: bridge
